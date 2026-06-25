@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سِفْرة المدينة المنوّرة — برنامج تواق · المرحلة المتوسطة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#23302B;--muted:#6B756F;--sand:#F3EEE2;--paper:#FCFAF4;
+  --green-900:#0E3B2E;--green-700:#1C6B52;--green-500:#2E8B6F;--gold:#C9A24B;--line:#E3DDCD;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--sand);color:var(--ink);font-family:'Cairo',system-ui,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.hero{position:relative;overflow:hidden;color:#F3EEE2;padding:54px 22px 60px;text-align:center;
+  background:radial-gradient(120% 90% at 85% -10%,#15533F 0%,var(--green-900) 55%,#0A2E23 100%)}
+.hero::after{content:"";position:absolute;inset:0;opacity:.5;pointer-events:none;background:
+   radial-gradient(2px 2px at 18% 30%,#fff7 0,transparent 50%),
+   radial-gradient(1.6px 1.6px at 72% 22%,#fff6 0,transparent 50%),
+   radial-gradient(1.5px 1.5px at 40% 60%,#fff5 0,transparent 50%),
+   radial-gradient(2px 2px at 88% 55%,#fff6 0,transparent 50%),
+   radial-gradient(1.4px 1.4px at 28% 78%,#fff5 0,transparent 50%)}
+.eyebrow{font-family:'Reem Kufi',sans-serif;font-weight:600;letter-spacing:.04em;font-size:.82rem;
+  color:var(--gold);position:relative;z-index:1;margin-bottom:10px}
+.hero h1{font-family:'Aref Ruqaa',serif;font-weight:700;position:relative;z-index:1;margin:0;
+  font-size:clamp(2.1rem,7vw,3.4rem);line-height:1.25;text-shadow:0 2px 18px #00000040}
+.hero .sub{position:relative;z-index:1;margin:6px 0 0;font-size:1.05rem;color:#DCE9E2}
+.crest{position:relative;z-index:1;display:inline-flex;gap:8px;margin-top:18px;flex-wrap:wrap;justify-content:center}
+.crest span{font-size:.84rem;background:#ffffff14;border:1px solid #ffffff2e;padding:6px 14px;border-radius:999px}
+.dome{position:relative;z-index:1;width:46px;height:46px;margin:0 auto 4px;display:block}
+.tabwrap{position:sticky;top:0;z-index:20;background:var(--sand);border-bottom:1px solid var(--line);box-shadow:0 4px 14px #0000000a}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 14px;max-width:760px;margin:0 auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;cursor:pointer;border:1px solid var(--line);background:var(--paper);border-radius:14px;
+  padding:8px 16px;font-family:'Cairo';color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:1px;transition:.18s;min-width:78px}
+.tab .tab-day{font-family:'Reem Kufi';font-weight:600;font-size:1rem}
+.tab .tab-n{font-size:.68rem;color:var(--muted)}
+.tab:hover{border-color:var(--green-500)}
+.tab.active{background:var(--green-700);border-color:var(--green-700);color:#fff;box-shadow:0 6px 16px #1c6b5240}
+.tab.active .tab-n{color:#cfe7dd}
+.legend{max-width:760px;margin:14px auto 0;padding:0 16px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center}
+.lg{font-size:.74rem;color:var(--muted);display:inline-flex;align-items:center;gap:5px}
+.lg i{width:10px;height:10px;border-radius:50%;display:inline-block}
+main{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+.panel{display:none;animation:fade .35s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.day-head{margin:6px 4px 22px}
+.day-head h2{font-family:'Reem Kufi';margin:0;font-size:1.55rem;color:var(--green-900)}
+.day-head p{margin:2px 0 0;color:var(--gold);font-weight:600;font-size:.9rem;font-family:'Reem Kufi'}
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline::before{content:"";position:absolute;top:6px;bottom:6px;right:17px;width:2px;background:linear-gradient(var(--green-500),var(--line))}
+.stop{position:relative;padding:0 46px 18px 0}
+.node{position:absolute;right:8px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--c);
+  box-shadow:0 0 0 4px var(--sand),0 0 0 5px var(--t);display:flex;align-items:center;justify-content:center;z-index:1}
+.node .ic{font-size:.62rem;filter:grayscale(1) brightness(3)}
+.card{background:var(--paper);border:1px solid var(--line);border-right:4px solid var(--c);border-radius:13px;padding:12px 15px;box-shadow:0 2px 8px #0000000a}
+.time{font-family:'Cairo';font-weight:700;font-size:.82rem;color:var(--green-700);letter-spacing:.02em;margin-bottom:2px;display:inline-block}
+.act{font-weight:600;font-size:1.04rem;color:var(--ink);line-height:1.4}
+.chip{display:inline-block;margin-top:7px;font-size:.72rem;font-weight:600;color:var(--c);background:var(--t);padding:3px 11px;border-radius:999px}
+.det{margin-top:7px;font-size:.84rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:6px}
+footer{text-align:center;color:var(--muted);font-size:.78rem;padding:0 16px 34px}
+footer b{color:var(--green-700);font-family:'Reem Kufi'}
+@media(max-width:480px){.hero{padding:40px 16px 46px}.act{font-size:1rem}}
+@media print{.tabwrap,.legend{display:none}
+  .hero{background:var(--green-900) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .panel{display:block !important;page-break-after:always}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <svg class="dome" viewBox="0 0 64 64" fill="none">
+    <path d="M32 6c-7 6-9 13-9 18 0 0-5 3-5 9v3h28v-3c0-6-5-9-5-9 0-5-2-12-9-18z" fill="#C9A24B"/>
+    <rect x="16" y="36" width="32" height="22" rx="2" fill="#1C6B52"/>
+    <rect x="29" y="44" width="6" height="14" rx="3" fill="#0E3B2E"/>
+    <circle cx="32" cy="4" r="2.4" fill="#C9A24B"/>
+  </svg>
+  <div class="eyebrow">جمعية ثروة الشبابية · برنامج تواق</div>
+  <h1>سِفْرة المدينة المنوّرة</h1>
+  <p class="sub">جدول المرحلة المتوسطة</p>
+  <div class="crest"><span>٦ أيام</span><span>الخميس – الثلاثاء</span></div>
+</header>
+<div class="tabwrap"><div class="tabs"><button class="tab active" data-day="0"><span class="tab-day">الخميس</span><span class="tab-n">2 فقرة</span></button><button class="tab " data-day="1"><span class="tab-day">الجمعة</span><span class="tab-n">13 فقرة</span></button><button class="tab " data-day="2"><span class="tab-day">السبت</span><span class="tab-n">19 فقرة</span></button><button class="tab " data-day="3"><span class="tab-day">الأحد</span><span class="tab-n">21 فقرة</span></button><button class="tab " data-day="4"><span class="tab-day">الاثنين</span><span class="tab-n">21 فقرة</span></button><button class="tab " data-day="5"><span class="tab-day">الثلاثاء</span><span class="tab-n">9 فقرة</span></button></div></div>
+<div class="legend"><span class="lg"><i style="background:#1C6B52"></i>🕌 صلاة</span><span class="lg"><i style="background:#B5702A"></i>🍽️ طعام</span><span class="lg"><i style="background:#6E7A86"></i>🚌 انتقال</span><span class="lg"><i style="background:#B0483D"></i>🏅 رياضي</span><span class="lg"><i style="background:#6A5AA3"></i>📖 ثقافي</span><span class="lg"><i style="background:#3F6CA8"></i>👥 تربوي</span><span class="lg"><i style="background:#2F7D8C"></i>📍 زيارة</span><span class="lg"><i style="background:#9A8458"></i>🌙 راحة</span></div>
+<main>
+    <section class="panel active" data-day="0">
+      <header class="day-head"><h2>الخميس</h2><p>يوم الانطلاق</p></header>
+      <ol class="timeline">
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">11:00-12:00</div><div class="act">التجمع</div>
+            <span class="chip">🌙 راحة</span><div class="det">في مقر الجمعية</div></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">12:00- 4:30</div><div class="act">الانطلاق</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li></ol>
+    </section>
+    <section class="panel " data-day="1">
+      <header class="day-head"><h2>الجمعة</h2><p>الوصول إلى المدينة</p></header>
+      <ol class="timeline">
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">04:30</div><div class="act">صلاة الفجر بالقصيم</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">4:50 -5:00</div><div class="act">التوجه لمطعم الفطور</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">6:00 -12:30</div><div class="act">الانطلاق للمدينة</div>
+            <span class="chip">🚌 انتقال</span><div class="det">بقالة</div></div>
+        </li>
+        <li class="stop" data-cat="edu" style="--c:#3F6CA8;--t:#E2EAF4">
+          <span class="node"><span class="ic">👥</span></span>
+          <div class="card"><div class="time" dir="ltr">12:45 - 1:45</div><div class="act">جلسة افتتاحية</div>
+            <span class="chip">👥 تربوي</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">1:45 - 2:20</div><div class="act">غداء</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">2:30 - 4:30</div><div class="act">راحة</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">4:50 - 5:10</div><div class="act">صلاة ظهر عصر</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="cultural" style="--c:#6A5AA3;--t:#EBE7F4">
+          <span class="node"><span class="ic">📖</span></span>
+          <div class="card"><div class="time" dir="ltr">5:15 - 6:15</div><div class="act">ثقافي</div>
+            <span class="chip">📖 ثقافي</span></div>
+        </li>
+        <li class="stop" data-cat="edu" style="--c:#3F6CA8;--t:#E2EAF4">
+          <span class="node"><span class="ic">👥</span></span>
+          <div class="card"><div class="time" dir="ltr">6:20 - 7:00</div><div class="act">تربوي</div>
+            <span class="chip">👥 تربوي</span><div class="det">جلسة اجتماعية</div></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">7:00 - 7:30</div><div class="act">آخر ساعة وصلاة</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="sport" style="--c:#B0483D;--t:#F4E2DF">
+          <span class="node"><span class="ic">🏅</span></span>
+          <div class="card"><div class="time" dir="ltr">7:35 - 9:30</div><div class="act">رياضي</div>
+            <span class="chip">🏅 رياضي</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">9:30 - 10:00</div><div class="act">عشاء</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">10:20</div><div class="act">نوم</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li></ol>
+    </section>
+    <section class="panel " data-day="2">
+      <header class="day-head"><h2>السبت</h2><p>الحرم والزيارات</p></header>
+      <ol class="timeline">
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">03:00</div><div class="act">الاستيقاظ</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">3:30 - 4:00</div><div class="act">الانطلاق للحرم</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">4:00 - 5:10</div><div class="act">صلاة + إشراقة</div>
+            <span class="chip">🕌 صلاة</span><div class="det">إشراقة كل 6 مع بعض</div></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">5:20 - 6:20</div><div class="act">المشي لقباء  والصلاة فيه</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">6:20 - 7:20</div><div class="act">الفطور</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="visit" style="--c:#2F7D8C;--t:#E0EFF1">
+          <span class="node"><span class="ic">📍</span></span>
+          <div class="card"><div class="time" dir="ltr">7:45- 9:00</div><div class="act">زيارة</div>
+            <span class="chip">📍 زيارة</span></div>
+        </li>
+        <li class="stop" data-cat="sport" style="--c:#B0483D;--t:#F4E2DF">
+          <span class="node"><span class="ic">🏅</span></span>
+          <div class="card"><div class="time" dir="ltr">10:00 - 2:00</div><div class="act">سباحة أول ساعة + راحة</div>
+            <span class="chip">🏅 رياضي</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">2:15 - 2:35</div><div class="act">صلاة ظهر وعصر</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">2:40 - 3:10</div><div class="act">غداء</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="cultural" style="--c:#6A5AA3;--t:#EBE7F4">
+          <span class="node"><span class="ic">📖</span></span>
+          <div class="card"><div class="time" dir="ltr">3:15 - 4:15</div><div class="act">ثقافي</div>
+            <span class="chip">📖 ثقافي</span></div>
+        </li>
+        <li class="stop" data-cat="edu" style="--c:#3F6CA8;--t:#E2EAF4">
+          <span class="node"><span class="ic">👥</span></span>
+          <div class="card"><div class="time" dir="ltr">4:15 - 5:00</div><div class="act">تربوي</div>
+            <span class="chip">👥 تربوي</span></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">5:00 - 5:10</div><div class="act">التجهيز للحرم</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">5:15 - 5:35</div><div class="act">الطريق للحرم</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="visit" style="--c:#2F7D8C;--t:#E0EFF1">
+          <span class="node"><span class="ic">📍</span></span>
+          <div class="card"><div class="time" dir="ltr">5:45 -  7:00</div><div class="act">الزيارة</div>
+            <span class="chip">📍 زيارة</span><div class="det">معرض السيرة</div></div>
+        </li>
+        <li class="stop" data-cat="edu" style="--c:#3F6CA8;--t:#E2EAF4">
+          <span class="node"><span class="ic">👥</span></span>
+          <div class="card"><div class="time" dir="ltr">7:10 -9:10</div><div class="act">جلسة في الحرم مع درس يجهز لكل مشرف</div>
+            <span class="chip">👥 تربوي</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">9:20 - 9:50</div><div class="act">الانطلاق للاستراحة</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="sport" style="--c:#B0483D;--t:#F4E2DF">
+          <span class="node"><span class="ic">🏅</span></span>
+          <div class="card"><div class="time" dir="ltr">10:00- 11:30</div><div class="act">رياضي</div>
+            <span class="chip">🏅 رياضي</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">11:30 - 12:00</div><div class="act">عشاء</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">12:15</div><div class="act">الكل نائم</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li></ol>
+    </section>
+    <section class="panel " data-day="3">
+      <header class="day-head"><h2>الأحد</h2><p>مجمع الملك فهد والحرم</p></header>
+      <ol class="timeline">
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">04:30</div><div class="act">الاستيقاظ</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">5:00 - 5:15</div><div class="act">صلاة الفجر</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">5:20 - 5:45</div><div class="act">إشراقة</div>
+            <span class="chip">🕌 صلاة</span><div class="det">شحلوب</div></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">6:00 : 6:20</div><div class="act">تجهيز</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">6:30 -7:00</div><div class="act">الانطلاق لمجمع الملك فهد</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="visit" style="--c:#2F7D8C;--t:#E0EFF1">
+          <span class="node"><span class="ic">📍</span></span>
+          <div class="card"><div class="time" dir="ltr">7:00 -8:00</div><div class="act">مجمع الملك فهد</div>
+            <span class="chip">📍 زيارة</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">8:10-8:30</div><div class="act">الانطلاق للنادي</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="sport" style="--c:#B0483D;--t:#F4E2DF">
+          <span class="node"><span class="ic">🏅</span></span>
+          <div class="card"><div class="time" dir="ltr">8:45 - 11:00</div><div class="act">رياضي</div>
+            <span class="chip">🏅 رياضي</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">11:15 - 11:35</div><div class="act">الرجوع للاستراحة</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">11:45- 2:00</div><div class="act">راحة</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">2:15 -2:45</div><div class="act">صلاة ظهر وعصر</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="edu" style="--c:#3F6CA8;--t:#E2EAF4">
+          <span class="node"><span class="ic">👥</span></span>
+          <div class="card"><div class="time" dir="ltr">3:00 - 4:00</div><div class="act">تربوي</div>
+            <span class="chip">👥 تربوي</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">4:00 - 4:30</div><div class="act">الغداء</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="cultural" style="--c:#6A5AA3;--t:#EBE7F4">
+          <span class="node"><span class="ic">📖</span></span>
+          <div class="card"><div class="time" dir="ltr">4:45- 5:30</div><div class="act">ثقافي</div>
+            <span class="chip">📖 ثقافي</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">5:45-6:20</div><div class="act">التجهيز والانطلاق للحرم</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="visit" style="--c:#2F7D8C;--t:#E0EFF1">
+          <span class="node"><span class="ic">📍</span></span>
+          <div class="card"><div class="time" dir="ltr">6:30-7:15</div><div class="act">زيارة</div>
+            <span class="chip">📍 زيارة</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">7:25 - 9:10</div><div class="act">صلاة مغرب وعشاء + الروضة</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">9:20 - 9:50</div><div class="act">الانطلاق للاستراحة</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="sport" style="--c:#B0483D;--t:#F4E2DF">
+          <span class="node"><span class="ic">🏅</span></span>
+          <div class="card"><div class="time" dir="ltr">10:00- 11:30</div><div class="act">رياضي</div>
+            <span class="chip">🏅 رياضي</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">11:30 - 12:00</div><div class="act">عشاء</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">12:15</div><div class="act">الكل نائم</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li></ol>
+    </section>
+    <section class="panel " data-day="4">
+      <header class="day-head"><h2>الاثنين</h2><p>جولة ولقاءات</p></header>
+      <ol class="timeline">
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">04:30</div><div class="act">الاستيقاظ</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">5:00 - 5:15</div><div class="act">صلاة الفجر</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">5:20 - 5:45</div><div class="act">إشراقة</div>
+            <span class="chip">🕌 صلاة</span><div class="det">شحلوب</div></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">5:50 - 6:00</div><div class="act">تجهيز</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">6:00 - 6:20</div><div class="act">الانطلاق لموقع التجمع</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="visit" style="--c:#2F7D8C;--t:#E0EFF1">
+          <span class="node"><span class="ic">📍</span></span>
+          <div class="card"><div class="time" dir="ltr">6:25 - 8:40</div><div class="act">جولة مع الريس</div>
+            <span class="chip">📍 زيارة</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">8:50 - 9:15</div><div class="act">العودة للاستراحة</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="cultural" style="--c:#6A5AA3;--t:#EBE7F4">
+          <span class="node"><span class="ic">📖</span></span>
+          <div class="card"><div class="time" dir="ltr">9:20 -10:40</div><div class="act">ثقافي الأقوى</div>
+            <span class="chip">📖 ثقافي</span></div>
+        </li>
+        <li class="stop" data-cat="sport" style="--c:#B0483D;--t:#F4E2DF">
+          <span class="node"><span class="ic">🏅</span></span>
+          <div class="card"><div class="time" dir="ltr">10:50 - 1:50</div><div class="act">سباحة أول ساعة + راحة</div>
+            <span class="chip">🏅 رياضي</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">2:00 - 2:30</div><div class="act">صلاة ظهر وعصر</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">2:30- 3:00</div><div class="act">غداء</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="edu" style="--c:#3F6CA8;--t:#E2EAF4">
+          <span class="node"><span class="ic">👥</span></span>
+          <div class="card"><div class="time" dir="ltr">3:10 - 4:20</div><div class="act">تربوي وجلسة اجتماعية</div>
+            <span class="chip">👥 تربوي</span></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">4:30 - 4:50</div><div class="act">تجهيز</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">4:55 - 5:20</div><div class="act">الانطلاق للبولينق</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="sport" style="--c:#B0483D;--t:#F4E2DF">
+          <span class="node"><span class="ic">🏅</span></span>
+          <div class="card"><div class="time" dir="ltr">5:30 - 7:00</div><div class="act">لعب</div>
+            <span class="chip">🏅 رياضي</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">7:10 - 7:30</div><div class="act">رجوع للسكن</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">7:40 - 8:00</div><div class="act">صلاة مغرب عشاء</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="sport" style="--c:#B0483D;--t:#F4E2DF">
+          <span class="node"><span class="ic">🏅</span></span>
+          <div class="card"><div class="time" dir="ltr">8:20 - 10:20</div><div class="act">رياضي</div>
+            <span class="chip">🏅 رياضي</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">10:30 - 11:00</div><div class="act">عشاء</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="edu" style="--c:#3F6CA8;--t:#E2EAF4">
+          <span class="node"><span class="ic">👥</span></span>
+          <div class="card"><div class="time" dir="ltr">11:15 - 12:15</div><div class="act">جلسة سمر</div>
+            <span class="chip">👥 تربوي</span></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">12:30</div><div class="act">نوم</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li></ol>
+    </section>
+    <section class="panel " data-day="5">
+      <header class="day-head"><h2>الثلاثاء</h2><p>الختام والعودة</p></header>
+      <ol class="timeline">
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">04:30</div><div class="act">الاستيقاظ</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">5:00 - 5:15</div><div class="act">صلاة الفجر</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">5:30- 7:30</div><div class="act">راحة</div>
+            <span class="chip">🌙 راحة</span></div>
+        </li>
+        <li class="stop" data-cat="rest" style="--c:#9A8458;--t:#F0EBDF">
+          <span class="node"><span class="ic">🌙</span></span>
+          <div class="card"><div class="time" dir="ltr">8:00 -9:00</div><div class="act">ضف عفش</div>
+            <span class="chip">🌙 راحة</span><div class="det">فطور في آخر الوقت</div></div>
+        </li>
+        <li class="stop" data-cat="edu" style="--c:#3F6CA8;--t:#E2EAF4">
+          <span class="node"><span class="ic">👥</span></span>
+          <div class="card"><div class="time" dir="ltr">9:00- 10:00</div><div class="act">جلسة ختامية وتكريم</div>
+            <span class="chip">👥 تربوي</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">10:00</div><div class="act">العودة للرياض</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li>
+        <li class="stop" data-cat="meal" style="--c:#B5702A;--t:#F6EBDD">
+          <span class="node"><span class="ic">🍽️</span></span>
+          <div class="card"><div class="time" dir="ltr">4:00- 4:45</div><div class="act">غداء بالقصيم</div>
+            <span class="chip">🍽️ طعام</span></div>
+        </li>
+        <li class="stop" data-cat="prayer" style="--c:#1C6B52;--t:#E4EFE9">
+          <span class="node"><span class="ic">🕌</span></span>
+          <div class="card"><div class="time" dir="ltr">07:00</div><div class="act">وقفة صلاة مغرب وعشاء</div>
+            <span class="chip">🕌 صلاة</span></div>
+        </li>
+        <li class="stop" data-cat="transit" style="--c:#6E7A86;--t:#EAEDF0">
+          <span class="node"><span class="ic">🚌</span></span>
+          <div class="card"><div class="time" dir="ltr">10:00</div><div class="act">الوصول لمقر الجمعية</div>
+            <span class="chip">🚌 انتقال</span></div>
+        </li></ol>
+    </section></main>
+<footer><b>برنامج تواق</b> — جمعية ثروة الشبابية · جدول رحلة المدينة المنوّرة للمرحلة المتوسطة</footer>
+<script>
+const tabs=[...document.querySelectorAll('.tab')];
+const panels=[...document.querySelectorAll('.panel')];
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  const d=t.dataset.day;
+  tabs.forEach(x=>x.classList.toggle('active',x.dataset.day===d));
+  panels.forEach(p=>p.classList.toggle('active',p.dataset.day===d));
+  window.scrollTo({top:document.querySelector('.tabwrap').offsetTop-4,behavior:'smooth'});
+}));
+</script>
+</body>
+</html>
